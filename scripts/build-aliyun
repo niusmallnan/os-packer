@@ -10,14 +10,13 @@ PACKER_LOG=1 packer build ${FILE:-aliyun-qemu.json}
 RANCHEROS_VERSION=${RANCHEROS_VERSION:-test}
 
 mv output-aliyun-ecs/packer-aliyun-ecs rancheros-aliyun.qcow2
-qemu-img convert -f qcow2 -O vpc rancheros-aliyun.qcow2 rancheros-aliyun.vhd
 mkdir -p ../dist
-mv  rancheros-aliyun.vhd ../dist/
+mv  rancheros-aliyun.qcow2 ../dist/
 
 echo "upload the Aliyun image using:"
-echo "  ossutil cp rancheros-aliyun.vhd oss://<your-bucket>"
+echo "  ossutil cp rancheros-aliyun.qcow2 oss://<your-bucket>"
 echo "upload the Aliyun image using:"
-echo "  gsutil cp dist/rancheros-aliyun.vhd gs://releases.rancher.com/os/latest/rancheros-aliyun.vhd"
-echo "  gsutil cp dist/rancheros-aliyun.vhd gs://releases.rancher.com/os/${RANCHEROS_VERSION}/rancheros-aliyun.vhd"
+echo "  gsutil cp dist/rancheros-aliyun.qcow2 gs://releases.rancher.com/os/latest/rancheros-aliyun.qcow2"
+echo "  gsutil cp dist/rancheros-aliyun.qcow2 gs://releases.rancher.com/os/${RANCHEROS_VERSION}/rancheros-aliyun.qcow2"
 echo "upload the github release:"
-echo "  github-release upload  --user rancher --repo os --tag ${RANCHEROS_VERSION} --file dist/rancheros-aliyun.vhd --name rancheros-aliyun.vhd"
+echo "  github-release upload  --user rancher --repo os --tag ${RANCHEROS_VERSION} --file dist/rancheros-aliyun.qcow2 --name rancheros-aliyun.qcow2"
